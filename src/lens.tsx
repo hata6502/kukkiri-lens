@@ -108,9 +108,13 @@ export const Lens: FunctionComponent = () => {
           type="button"
           disabled={detecting}
           onClick={handleCameraButton}
-          className="flex items-center gap-x-3 rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-400"
+          className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-5 py-3 text-base/6 font-semibold text-white before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-blue-600 before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] focus:outline-hidden data-[active]:after:bg-white/10 data-[disabled]:opacity-50 data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[hover]:after:bg-white/10 sm:px-6 sm:py-3.5 sm:text-lg dark:border-white/5 dark:before:hidden dark:after:-inset-px dark:after:rounded-lg"
         >
-          <CameraIcon className="h-5 w-5" aria-hidden="true" />
+          <CameraIcon
+            data-slot="icon"
+            className="-mx-0.5 my-0.5 size-5 shrink-0 self-center text-blue-200 sm:my-1 sm:size-6"
+            aria-hidden="true"
+          />
           {detecting ? "文字認識中…" : "カメラで撮る"}
         </button>
       </div>
@@ -126,9 +130,9 @@ export const Lens: FunctionComponent = () => {
 
       <div
         ref={htmlContainerRef}
-        className="flex min-h-[200px] items-center justify-center rounded-lg border border-gray-300 bg-gray-50 p-4 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500"
+        className="flex min-h-[200px] items-center justify-center rounded-lg border border-zinc-950/10 bg-zinc-50 p-4 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:border-white/10 dark:bg-zinc-900"
       >
-        <p className="text-center text-gray-500">
+        <p className="text-center text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
           写真を撮影すると、文字認識結果がここに表示されます
         </p>
       </div>

@@ -22,14 +22,14 @@ export const App: FunctionComponent = () => {
   return (
     <div className="mx-auto mb-16 max-w-4xl bg-white px-8">
       <div className="mt-16">
-        <h2 className="flex flex-col-reverse items-center justify-center gap-4 text-center text-5xl/[1.1] font-bold break-words break-keep md:flex-row">
+        <h1 className="flex flex-col-reverse items-center justify-center gap-4 text-center text-4xl/8 font-semibold break-words break-keep text-zinc-950 md:flex-row md:text-5xl/[1.1] dark:text-white">
           くっきり
           <wbr />
           レンズ
           <img src="favicon.png" className="inline w-20" />
-        </h2>
+        </h1>
 
-        <p className="mt-6 text-center text-lg leading-8 text-gray-600">
+        <p className="mt-6 text-center text-lg/7 text-zinc-500 sm:text-base/6 dark:text-zinc-400">
           スマホのカメラでくっきりと文字を読めるようになります
           <br />
           かすれた看板や手書きのメモにも対応
@@ -41,16 +41,22 @@ export const App: FunctionComponent = () => {
       </div>
 
       <div className="mt-16">
-        <div className="divide-y divide-gray-900/10">
+        <div className="divide-y divide-zinc-950/5 dark:divide-white/5">
           {faqs.map(({ title, url }) => (
             <a
               key={title}
               href={url}
               target="_blank"
-              className="flex items-center gap-x-2 py-6"
+              className="group flex items-center gap-x-4 py-6 text-zinc-950 no-underline data-[hover]:bg-zinc-950/[2.5%] dark:text-white dark:data-[hover]:bg-white/[2.5%]"
             >
-              <DocumentTextIcon className="h-6 w-6" aria-hidden="true" />
-              <span className="leading-7 font-semibold">{title}</span>
+              <DocumentTextIcon
+                data-slot="icon"
+                className="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-300"
+                aria-hidden="true"
+              />
+              <span className="text-lg/7 font-semibold text-zinc-950 sm:text-base/6 dark:text-white">
+                {title}
+              </span>
             </a>
           ))}
         </div>
