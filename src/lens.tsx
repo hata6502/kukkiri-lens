@@ -108,7 +108,7 @@ export const Lens: FunctionComponent = () => {
           type="button"
           disabled={detecting}
           onClick={handleCameraButton}
-          className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-5 py-3 text-base/6 font-semibold text-white before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-blue-600 before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] focus:outline-hidden data-[active]:after:bg-white/10 data-[disabled]:opacity-50 data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[hover]:after:bg-white/10 sm:px-6 sm:py-3.5 sm:text-lg dark:border-white/5 dark:before:hidden dark:after:-inset-px dark:after:rounded-lg"
+          className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-5 py-3 text-base/6 font-semibold text-white before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-blue-600 before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] focus:outline-hidden data-[active]:after:bg-white/10 data-[disabled]:opacity-50 data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[hover]:after:bg-white/10 sm:px-6 sm:py-3.5 sm:text-lg"
         >
           <CameraIcon
             data-slot="icon"
@@ -130,27 +130,27 @@ export const Lens: FunctionComponent = () => {
 
       <div
         ref={htmlContainerRef}
-        className="flex min-h-[200px] items-center justify-center rounded-lg border border-zinc-950/10 bg-zinc-50 p-4 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:border-white/10 dark:bg-zinc-900"
+        className="flex min-h-[200px] items-center justify-center rounded-lg border border-zinc-950/10 bg-zinc-50 p-4 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"
       >
-        <p className="text-center text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
+        <p className="text-center text-base/6 text-zinc-500 sm:text-sm/6">
           写真を撮影すると、文字認識結果がここに表示されます
         </p>
       </div>
 
       {tried && !appInstalled && (
-        <div className="relative isolate rounded-lg bg-blue-50 p-6 shadow-sm ring-1 ring-blue-200/50 dark:bg-blue-950/50 dark:ring-blue-800/50">
+        <div className="relative isolate rounded-lg bg-blue-50 p-6 shadow-sm ring-1 ring-blue-200/50">
           <div className="flex items-start gap-x-4">
             <DevicePhoneMobileIcon
               data-slot="icon"
-              className="size-6 shrink-0 text-blue-600 dark:text-blue-400"
+              className="size-6 shrink-0 text-blue-600"
               aria-hidden="true"
             />
             <div className="min-w-0 flex-1">
-              <h3 className="text-base/7 font-semibold text-blue-950 sm:text-sm/6 dark:text-blue-100">
+              <h3 className="text-base/7 font-semibold text-blue-950 sm:text-sm/6">
                 アプリとしてインストール
               </h3>
 
-              <p className="mt-1 text-base/6 text-blue-700 sm:text-sm/6 dark:text-blue-300">
+              <p className="mt-1 text-base/6 text-blue-700 sm:text-sm/6">
                 ホーム画面に追加すると、より快適にご利用いただけます。
                 <br />
                 ブラウザのメニューから「ホーム画面に追加」を選択してください。
