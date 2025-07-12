@@ -1,9 +1,12 @@
-import { CameraIcon } from "@heroicons/react/24/outline";
+import { CameraIcon, DevicePhoneMobileIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import type { ChangeEventHandler, FunctionComponent } from "react";
 
 export const Lens: FunctionComponent = () => {
+  const appInstalled = !matchMedia("(display-mode: browser)").matches;
+
   const [detecting, setDetecting] = useState(false);
+  const [tried, setTried] = useState(false);
 
   const htmlContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -81,11 +84,18 @@ export const Lens: FunctionComponent = () => {
       const { html } = await response.json();
 
       htmlContainer.innerHTML = html;
+      const title = htmlContainer.querySelector("title");
+      if (!title) {
+        throw new Error("Title element not found in HTML");
+      }
+      title.textContent = "";
 
       selection.removeAllRanges();
       const range = new Range();
       range.selectNodeContents(htmlContainer);
       selection.addRange(range);
+
+      setTried(true);
     } finally {
       setDetecting(false);
     }
@@ -122,6 +132,29 @@ export const Lens: FunctionComponent = () => {
           写真を撮影すると、文字認識結果がここに表示されます
         </p>
       </div>
+
+      {tried && !appInstalled && (
+        <div className="relative isolate rounded-lg bg-blue-50 p-6 shadow-sm ring-1 ring-blue-200/50 dark:bg-blue-950/50 dark:ring-blue-800/50">
+          <div className="flex items-start gap-x-4">
+            <DevicePhoneMobileIcon
+              data-slot="icon"
+              className="size-6 shrink-0 text-blue-600 dark:text-blue-400"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 flex-1">
+              <h3 className="text-base/7 font-semibold text-blue-950 sm:text-sm/6 dark:text-blue-100">
+                アプリとしてインストール
+              </h3>
+
+              <p className="mt-1 text-base/6 text-blue-700 sm:text-sm/6 dark:text-blue-300">
+                ホーム画面に追加すると、より快適にご利用いただけます。
+                <br />
+                ブラウザのメニューから「ホーム画面に追加」を選択してください。
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

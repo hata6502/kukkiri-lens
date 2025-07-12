@@ -1,3 +1,5 @@
 /catalyst-ui-kit
 /node_modules
-/public/dist
+/public/index.css
+/public/index.js
+/public/service-worker.js

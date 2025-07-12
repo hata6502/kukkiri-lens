@@ -28,6 +28,7 @@ export const App: FunctionComponent = () => {
           レンズ
           <img src="favicon.png" className="inline w-20" />
         </h2>
+
         <p className="mt-6 text-center text-lg leading-8 text-gray-600">
           スマホのカメラでくっきりと文字を読めるようになります
           <br />
