@@ -1,3 +1,4 @@
+import { CameraIcon } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import type { ChangeEventHandler, FunctionComponent } from "react";
 
@@ -91,10 +92,18 @@ export const Lens: FunctionComponent = () => {
   };
 
   return (
-    <>
-      <button type="button" disabled={detecting} onClick={handleCameraButton}>
-        {detecting ? "文字認識中…" : "カメラで撮る"}
-      </button>
+    <div className="space-y-6">
+      <div className="flex justify-center">
+        <button
+          type="button"
+          disabled={detecting}
+          onClick={handleCameraButton}
+          className="flex items-center gap-x-3 rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-400"
+        >
+          <CameraIcon className="h-5 w-5" aria-hidden="true" />
+          {detecting ? "文字認識中…" : "カメラで撮る"}
+        </button>
+      </div>
 
       <input
         ref={inputRef}
@@ -105,7 +114,14 @@ export const Lens: FunctionComponent = () => {
         onChange={handleInputChange}
       />
 
-      <div ref={htmlContainerRef} />
-    </>
+      <div
+        ref={htmlContainerRef}
+        className="flex min-h-[200px] items-center justify-center rounded-lg border border-gray-300 bg-gray-50 p-4 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500"
+      >
+        <p className="text-center text-gray-500">
+          写真を撮影すると、文字認識結果がここに表示されます
+        </p>
+      </div>
+    </div>
   );
 };
