@@ -7,7 +7,7 @@ import { App } from "./app";
 
 try {
   const registration = await navigator.serviceWorker.register(
-    "service-worker.js",
+    "/service-worker.js",
     { type: "module" },
   );
 
