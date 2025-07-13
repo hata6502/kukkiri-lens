@@ -39,28 +39,30 @@ export const Lens: FunctionComponent = () => {
         return;
       }
 
-      const dataURL = await new Promise<string>((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-          if (typeof fileReader.result !== "string") {
-            reject(new Error("FileReader result is not a string"));
+      const image = new Image();
+      image.src = URL.createObjectURL(file);
+      await image.decode();
+
+      // image orientationを補正する
+      const canvas = document.createElement("canvas");
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const canvasContext = canvas.getContext("2d");
+      if (!canvasContext) {
+        throw new Error("Canvas context is not available");
+      }
+      canvasContext.drawImage(image, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
+      const href = await new Promise<string>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error("Failed to convert canvas to blob"));
             return;
           }
 
-          resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-          reject(error);
-        };
-
-        fileReader.readAsDataURL(file);
+          resolve(URL.createObjectURL(blob));
+        });
       });
-
-      const href = URL.createObjectURL(file);
-
-      const image = new Image();
-      image.src = href;
-      await image.decode();
 
       const response = await fetch(
         "https://ocr-162013450789.us-central1.run.app",
@@ -72,8 +74,8 @@ export const Lens: FunctionComponent = () => {
           body: JSON.stringify({
             href,
             image: dataURL.split(",")[1],
-            width: image.naturalWidth,
-            height: image.naturalHeight,
+            width: canvas.width,
+            height: canvas.height,
           }),
         },
       );
@@ -95,7 +97,6 @@ export const Lens: FunctionComponent = () => {
       if (!imageElement) {
         throw new Error("Image element not found in HTML");
       }
-      imageElement.style.imageOrientation = "none";
 
       for (const text of htmlContainer.querySelectorAll("text")) {
         text.style.fill = "#000000";
