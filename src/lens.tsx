@@ -77,6 +77,7 @@ export const Lens: FunctionComponent = () => {
           },
           body: JSON.stringify({
             href,
+            alt: "",
             image: dataURL.split(",")[1],
             width: canvas.width,
             height: canvas.height,
@@ -90,12 +91,6 @@ export const Lens: FunctionComponent = () => {
       const { html } = await response.json();
 
       htmlContainer.innerHTML = html;
-
-      const title = htmlContainer.querySelector("title");
-      if (!title) {
-        throw new Error("Title element not found in HTML");
-      }
-      title.textContent = "";
 
       const imageElement = htmlContainer.querySelector("image");
       if (!imageElement) {
