@@ -1,4 +1,8 @@
-import { CameraIcon, DevicePhoneMobileIcon } from "@heroicons/react/24/outline";
+import {
+  CameraIcon,
+  DevicePhoneMobileIcon,
+  PhotoIcon,
+} from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import type { ChangeEventHandler, FunctionComponent } from "react";
 
@@ -9,14 +13,23 @@ export const Lens: FunctionComponent = () => {
   const [tried, setTried] = useState(false);
 
   const htmlContainerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const handleCameraButton = () => {
-    if (!inputRef.current) {
-      throw new Error("Input ref is not set");
+    if (!cameraInputRef.current) {
+      throw new Error("Camera input ref is not set");
     }
 
-    inputRef.current.click();
+    cameraInputRef.current.click();
+  };
+
+  const handleGalleryButton = () => {
+    if (!galleryInputRef.current) {
+      throw new Error("Gallery input ref is not set");
+    }
+
+    galleryInputRef.current.click();
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = async (
@@ -132,30 +145,53 @@ export const Lens: FunctionComponent = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-y-4">
         <button
           type="button"
           disabled={detecting}
           onClick={handleCameraButton}
-          className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-5 py-3 text-base/6 font-semibold text-white before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-blue-600 before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] focus:outline-hidden data-[active]:after:bg-white/10 data-[disabled]:opacity-50 data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[hover]:after:bg-white/10 sm:px-6 sm:py-3.5 sm:text-lg"
+          className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <CameraIcon
-            data-slot="icon"
-            className="-mx-0.5 my-0.5 size-5 shrink-0 self-center text-blue-200 sm:my-1 sm:size-6"
-            aria-hidden="true"
-          />
+          <CameraIcon className="size-6 shrink-0" aria-hidden="true" />
           {detecting ? "文字認識中…" : "カメラで撮る"}
         </button>
-      </div>
 
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        className="hidden"
-        onChange={handleInputChange}
-      />
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={handleInputChange}
+        />
+
+        {!detecting && (
+          <>
+            <div className="flex items-center gap-x-4">
+              <div className="h-px w-16 bg-zinc-300"></div>
+              <span className="text-sm font-medium text-zinc-500">または</span>
+              <div className="h-px w-16 bg-zinc-300"></div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGalleryButton}
+              className="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border border-zinc-300 bg-white px-6 py-3 text-base font-semibold text-zinc-900 shadow-sm transition-colors hover:border-zinc-400 hover:bg-zinc-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+            >
+              <PhotoIcon className="size-5 shrink-0" aria-hidden="true" />
+              写真を選択
+            </button>
+
+            <input
+              ref={galleryInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleInputChange}
+            />
+          </>
+        )}
+      </div>
 
       <div
         ref={htmlContainerRef}
