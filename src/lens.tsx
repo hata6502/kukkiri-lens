@@ -95,6 +95,7 @@ export const Lens: FunctionComponent = () => {
       if (!imageElement) {
         throw new Error("Image element not found in HTML");
       }
+      imageElement.style.imageOrientation = "none";
 
       for (const text of htmlContainer.querySelectorAll("text")) {
         text.style.fill = "#000000";
