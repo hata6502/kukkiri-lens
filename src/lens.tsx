@@ -43,15 +43,19 @@ export const Lens: FunctionComponent = () => {
       image.src = URL.createObjectURL(file);
       await image.decode();
 
-      // image orientationを補正する
+      // 解像度やimage orientationを補正する
       const canvas = document.createElement("canvas");
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
+      const zoom = Math.min(
+        Math.min(image.naturalWidth, 1080) / image.naturalWidth,
+        Math.min(image.naturalHeight, 1080) / image.naturalHeight,
+      );
+      canvas.width = image.naturalWidth * zoom;
+      canvas.height = image.naturalHeight * zoom;
       const canvasContext = canvas.getContext("2d");
       if (!canvasContext) {
         throw new Error("Canvas context is not available");
       }
-      canvasContext.drawImage(image, 0, 0);
+      canvasContext.drawImage(image, 0, 0, canvas.width, canvas.height);
       const dataURL = canvas.toDataURL("image/png");
       const href = await new Promise<string>((resolve, reject) => {
         canvas.toBlob((blob) => {
