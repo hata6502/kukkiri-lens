@@ -1,7 +1,7 @@
 {
   "name": "くっきりレンズ",
   "short_name": "くっきり",
-  "description": "スマホのカメラでくっきりと文字を読めるようになります。かすれた看板や手書きのメモにも対応。",
+  "description": "スマホのカメラでくっきりと文字を読めるようになります。かすれた黒板や手書きのメモにも対応。",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -32,7 +32,7 @@ export const App: FunctionComponent = () => {
         <p className="mt-6 text-center text-lg/7 text-zinc-500 sm:text-base/6">
           スマホのカメラでくっきりと文字を読めるようになります
           <br />
-          かすれた看板や手書きのメモにも対応
+          かすれた黒板や手書きのメモにも対応
         </p>
       </div>
 

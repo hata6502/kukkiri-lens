@@ -46,8 +46,8 @@ export const Lens: FunctionComponent = () => {
       // 解像度やimage orientationを補正する
       const canvas = document.createElement("canvas");
       const zoom = Math.min(
-        Math.min(image.naturalWidth, 1080) / image.naturalWidth,
-        Math.min(image.naturalHeight, 1080) / image.naturalHeight,
+        Math.min(image.naturalWidth, 1920) / image.naturalWidth,
+        Math.min(image.naturalHeight, 1920) / image.naturalHeight,
       );
       canvas.width = image.naturalWidth * zoom;
       canvas.height = image.naturalHeight * zoom;
@@ -56,7 +56,7 @@ export const Lens: FunctionComponent = () => {
         throw new Error("Canvas context is not available");
       }
       canvasContext.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const dataURL = canvas.toDataURL("image/png");
+      const dataURL = canvas.toDataURL("image/jpeg");
       const href = await new Promise<string>((resolve, reject) => {
         canvas.toBlob((blob) => {
           if (!blob) {
@@ -65,7 +65,7 @@ export const Lens: FunctionComponent = () => {
           }
 
           resolve(URL.createObjectURL(blob));
-        });
+        }, "image/jpeg");
       });
 
       const response = await fetch(
@@ -85,8 +85,9 @@ export const Lens: FunctionComponent = () => {
         },
       );
       if (!response.ok) {
-        alert("文字認識に失敗しました。");
-        return;
+        throw new Error(
+          `Failed to fetch OCR result: ${response.status} ${response.statusText}`,
+        );
       }
       const { html } = await response.json();
 
@@ -98,7 +99,7 @@ export const Lens: FunctionComponent = () => {
       }
 
       for (const text of htmlContainer.querySelectorAll("text")) {
-        text.style.fill = "#000000";
+        text.setAttribute("fill", "#000000");
 
         const backgroundRect = document.createElementNS(
           "http://www.w3.org/2000/svg",
@@ -108,10 +109,9 @@ export const Lens: FunctionComponent = () => {
           text.getAttribute("font-size")?.replace("px", "") ?? "",
         );
         backgroundRect.setAttribute("x", text.getAttribute("x") ?? "");
-        // TODO: dominant-baselineを使った方が良い
         backgroundRect.setAttribute(
           "y",
-          String(Number(text.getAttribute("y") ?? "") - height * 0.875),
+          String(Number(text.getAttribute("y") ?? "") - height / 2),
         );
         backgroundRect.setAttribute(
           "width",
@@ -123,6 +123,8 @@ export const Lens: FunctionComponent = () => {
       }
 
       setTried(true);
+    } catch (exception) {
+      alert(exception);
     } finally {
       setDetecting(false);
     }
@@ -177,7 +179,7 @@ export const Lens: FunctionComponent = () => {
                 アプリとしてインストール
               </h3>
 
-              <p className="mt-1 text-base/6 text-blue-700 sm:text-sm/6">
+              <p className="mt-1 text-base/6 text-zinc-500 sm:text-sm/6">
                 ホーム画面に追加すると、より快適にご利用いただけます。
                 <br />
                 ブラウザのメニューから「ホーム画面に追加」を選択してください。
