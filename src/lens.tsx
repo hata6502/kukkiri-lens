@@ -118,20 +118,36 @@ export const Lens: FunctionComponent = () => {
           "http://www.w3.org/2000/svg",
           "rect",
         );
+
+        const horizontal =
+          text.getAttribute("writing-mode") === "horizontal-tb";
+        const width = Number(text.getAttribute("textLength"));
         const height = Number(
-          text.getAttribute("font-size")?.replace("px", "") ?? "",
+          text.getAttribute("font-size")?.replace("px", ""),
         );
-        backgroundRect.setAttribute("x", text.getAttribute("x") ?? "");
+
+        backgroundRect.setAttribute(
+          "x",
+          String(
+            Number(text.getAttribute("x")) - (horizontal ? 0 : height / 2),
+          ),
+        );
         backgroundRect.setAttribute(
           "y",
-          String(Number(text.getAttribute("y") ?? "") - height / 2),
+          String(
+            Number(text.getAttribute("y")) - (horizontal ? height / 2 : 0),
+          ),
         );
         backgroundRect.setAttribute(
           "width",
-          text.getAttribute("textLength") ?? "",
+          String(horizontal ? width : height),
         );
-        backgroundRect.setAttribute("height", String(height));
+        backgroundRect.setAttribute(
+          "height",
+          String(horizontal ? height : width),
+        );
         backgroundRect.setAttribute("fill", "#cceeff");
+
         imageElement.after(backgroundRect);
       }
 
