@@ -84,16 +84,42 @@ export const Lens: FunctionComponent = () => {
       const { html } = await response.json();
 
       htmlContainer.innerHTML = html;
+
       const title = htmlContainer.querySelector("title");
       if (!title) {
         throw new Error("Title element not found in HTML");
       }
       title.textContent = "";
 
-      selection.removeAllRanges();
-      const range = new Range();
-      range.selectNodeContents(htmlContainer);
-      selection.addRange(range);
+      const imageElement = htmlContainer.querySelector("image");
+      if (!imageElement) {
+        throw new Error("Image element not found in HTML");
+      }
+
+      for (const text of htmlContainer.querySelectorAll("text")) {
+        text.style.fill = "#000000";
+
+        const backgroundRect = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "rect",
+        );
+        const height = Number(
+          text.getAttribute("font-size")?.replace("px", "") ?? "",
+        );
+        backgroundRect.setAttribute("x", text.getAttribute("x") ?? "");
+        // TODO: dominant-baselineを使った方が良い
+        backgroundRect.setAttribute(
+          "y",
+          String(Number(text.getAttribute("y") ?? "") - height * 0.875),
+        );
+        backgroundRect.setAttribute(
+          "width",
+          text.getAttribute("textLength") ?? "",
+        );
+        backgroundRect.setAttribute("height", String(height));
+        backgroundRect.setAttribute("fill", "#cceeff");
+        imageElement.after(backgroundRect);
+      }
 
       setTried(true);
     } finally {
