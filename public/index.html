@@ -12,6 +12,10 @@
           https://*.clarity.ms
           https://ocr-162013450789.us-central1.run.app
         ;
+        font-src
+          'self'
+          https://fonts.gstatic.com
+        ;
         img-src
           'self'
           blob:
@@ -23,6 +27,7 @@
         style-src
           'self'
           'unsafe-inline'
+          https://fonts.googleapis.com
         ;
       "
     />
@@ -43,6 +48,13 @@
     <link rel="apple-touch-icon" href="favicon.png" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="index.css" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic&display=swap"
+      rel="stylesheet"
+    />
 
     <title>くっきりレンズ</title>
   </head>

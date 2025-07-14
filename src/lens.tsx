@@ -113,6 +113,7 @@ export const Lens: FunctionComponent = () => {
 
       for (const text of htmlContainer.querySelectorAll("text")) {
         text.setAttribute("fill", "#000000");
+        text.classList.add("biz-udgothic-regular");
 
         const backgroundRect = document.createElementNS(
           "http://www.w3.org/2000/svg",
