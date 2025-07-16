@@ -112,42 +112,44 @@ export const Lens: FunctionComponent = () => {
       }
 
       for (const text of htmlContainer.querySelectorAll("text")) {
-        text.setAttribute("fill", "#000000");
         text.classList.add("biz-udgothic-regular");
+        text.style.fill = "#000000";
 
         const backgroundRect = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "rect",
         );
 
-        const horizontal =
-          text.getAttribute("writing-mode") === "horizontal-tb";
+        const horizontal = text.style.writingMode === "horizontal-tb";
         const width = Number(text.getAttribute("textLength"));
-        const height = Number(
-          text.getAttribute("font-size")?.replace("px", ""),
-        );
+        const height = Number(text.style.fontSize?.replace("px", ""));
 
+        const padding = 8;
         backgroundRect.setAttribute(
           "x",
           String(
-            Number(text.getAttribute("x")) - (horizontal ? 0 : height / 2),
+            Number(text.getAttribute("x")) -
+              (horizontal ? 0 : height / 2) -
+              padding,
           ),
         );
         backgroundRect.setAttribute(
           "y",
           String(
-            Number(text.getAttribute("y")) - (horizontal ? height / 2 : 0),
+            Number(text.getAttribute("y")) -
+              (horizontal ? height / 2 : 0) -
+              padding,
           ),
         );
         backgroundRect.setAttribute(
           "width",
-          String(horizontal ? width : height),
+          String((horizontal ? width : height) + padding * 2),
         );
         backgroundRect.setAttribute(
           "height",
-          String(horizontal ? height : width),
+          String((horizontal ? height : width) + padding * 2),
         );
-        backgroundRect.setAttribute("fill", "#cceeff");
+        backgroundRect.style.fill = "#cceeff";
 
         imageElement.after(backgroundRect);
       }
