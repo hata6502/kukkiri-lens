@@ -10,7 +10,6 @@ export const Lens: FunctionComponent = () => {
   const appInstalled = !matchMedia("(display-mode: browser)").matches;
 
   const [detecting, setDetecting] = useState(false);
-  const [tried, setTried] = useState(false);
 
   const htmlContainerRef = useRef<HTMLDivElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -106,6 +105,15 @@ export const Lens: FunctionComponent = () => {
 
       htmlContainer.innerHTML = html;
 
+      const svgElement = htmlContainer.querySelector("svg");
+      if (!svgElement) {
+        throw new Error("SVG element not found in HTML");
+      }
+      svgElement.ariaDescription = [...htmlContainer.querySelectorAll("text")]
+        .map((text) => text.textContent)
+        .join("\n");
+      svgElement.role = "alert";
+
       const imageElement = htmlContainer.querySelector("image");
       if (!imageElement) {
         throw new Error("Image element not found in HTML");
@@ -153,8 +161,6 @@ export const Lens: FunctionComponent = () => {
 
         imageElement.after(backgroundRect);
       }
-
-      setTried(true);
     } catch (exception) {
       alert(exception);
     } finally {
@@ -221,8 +227,11 @@ export const Lens: FunctionComponent = () => {
         </p>
       </div>
 
-      {tried && !appInstalled && (
-        <div className="relative isolate rounded-lg bg-blue-50 p-6 shadow-sm ring-1 ring-blue-200/50">
+      {!appInstalled && (
+        <div
+          className="relative isolate rounded-lg bg-blue-50 p-6 shadow-sm ring-1 ring-blue-200/50"
+          role="alert"
+        >
           <div className="flex items-start gap-x-4">
             <DevicePhoneMobileIcon
               data-slot="icon"
