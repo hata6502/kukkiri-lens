@@ -29,7 +29,7 @@ try {
   console.error(exception);
 }
 
-Clarity.init("sdtisum7oz");
+Clarity.init("tzb0jilbb4");
 
 const Index: FunctionComponent = () => (
   <StrictMode>
